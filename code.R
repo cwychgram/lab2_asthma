@@ -167,18 +167,22 @@ nox_cty <- asthma_cty %>%
 
 nrow(nox_cty) # 32 counties have NOx data
 
-# create Table 1
+
+# generate values for table 1 by filling in the blank (___) spaces below. Use
+# the appropriate R functions and variable names. Hint: the function name will
+# go in the first blank and the variable name will go inside the parentheses. 
+# Run names(nox_cty) or head(nox_cty) to remind yourself of variable names
 
 nox_cty %>%
   as.data.frame() %>%
-  group_by(Has_Plant) %>%
-  summarise(Number_of_Counties = n(),
-            ER_Rate_Mean = mean(Rate),
-            ER_Rate_Median = median(Rate),
-            ER_Rate_Min = min(Rate),
-            ER_Rate_Max = max(Rate),
-            NOx_Mean = mean(Avg_NOx),
-            NOx_Median = median(Avg_NOx),
-            NOx_Min = min(Avg_NOx),
-            NOx_Max = max(Avg_NOx)) %>%
+  group_by(Has_Plant) %>% # groups by binary Plant/No Plant variable
+  summarise(Number_of_Counties = n(), # counts # of counties by Plant/No Plant
+            ER_Rate_Mean = ___(___),
+            ER_Rate_Med = ___(___),
+            ER_Rate_Min = ___(___),
+            ER_Rate_Max = ___(___),
+            NOx_Mean = ___(___),
+            NOx_Med = ___(___),
+            NOx_Min = ___(___),
+            NOx_Max = ___(___)) %>%
   as.data.frame()
