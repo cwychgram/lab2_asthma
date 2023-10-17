@@ -167,7 +167,6 @@ nox_cty <- asthma_cty %>%
 
 nrow(nox_cty) # 32 counties have NOx data
 
-
 # generate values for table 1 by filling in the blank (___) spaces below. Use
 # the appropriate R functions and variable names. Hint: the function name will
 # go in the first blank and the variable name will go inside the parentheses. 
