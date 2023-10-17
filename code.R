@@ -3,14 +3,12 @@
 # installation, you can comment out (#) or delete the install.packages() lines
 
 # install.packages("dplyr")
-# install.packages("RColorBrewer")
 # install.packages("sf")
 # install.packages("tmap")
 
 # load packages
 
 library(dplyr)
-library(RColorBrewer)
 library(sf)
 library(tmap)
 
