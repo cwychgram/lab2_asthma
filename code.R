@@ -107,13 +107,13 @@ nox <- read.csv("annual_conc_by_monitor_2019.csv")
 
 nox <- nox %>%
   filter(State.Name == "California" & 
-           Parameter.Name == "Oxides of nitrogen (NOx)") %>%
-  select(Longitude, Latitude, Arithmetic.Mean)
+           Parameter.Name == "Oxides of nitrogen (NOx)") 
   
 # covert to spatial dataframe using ‘Longitude,’ ‘Latitude,’ and 
 # ‘Arithmetic.Mean’ as the parts per billion annual concentration of NOx
 
 nox <- nox %>%
+  select(Longitude, Latitude, Arithmetic.Mean) %>%
   st_as_sf(coords = c("Longitude", "Latitude"), crs = "EPSG:4326")
 
 # finally, add NOx to map and update map title
@@ -131,20 +131,20 @@ map3 <- map2 +
 
 map3
 
-# count the number of coal or petroleum plants within each county AND calculate
-# the average NOx concentration in each county
-# note that we're performing two spatial joins here. First, st_intersects() along 
-# with lengths() calculates the number of plants in each county. Second, st_join() 
-# spatially joins counties and NOx points. Some counties have multiple NOx points,
-# and st_join() creates extra rows for each unique county-NOx join. That is why we 
-# then use group_by() to group by county and calculate the average NOx. Finally, 
-# distinct() removes those duplicates rows so that we're again left with 58 
-# counties. There are other ways to do a points-in-polygon spatial join along 
-# with statistical calculations like mean in R. The aggregate() function can also
-# accomplish this. 
+# count the number of coal or petroleum plants within each county
 
 asthma_cty <- asthma_cty %>%
-  mutate(N_Plants = lengths(st_intersects(., plants))) %>%
+  mutate(N_Plants = lengths(st_intersects(., plants))) 
+
+# calculate the average NOx concentration in each county. Because some counties 
+# have multiple NOx points, st_join() creates extra rows for each unique county-
+# NOx join. That is why we then use group_by() to group by county and calculate 
+# the average NOx. Finally, distinct() removes those duplicates rows so that 
+# we're again left with 58 rows. There are other ways to do a points-in-
+# polygons join along with statistical calculations like mean in R. The 
+# aggregate() function can also accomplish this. 
+
+asthma_cty <- asthma_cty %>%
   st_join(nox) %>%
   group_by(NAME) %>%
   mutate(Avg_NOx = mean(Arithmetic.Mean, na.rm = TRUE)) %>%
@@ -170,7 +170,6 @@ nrow(nox_cty) # 32 counties have NOx data
 # generate values for table 1 by filling in the blank (___) spaces below. Use
 # the appropriate R functions and variable names. Hint: the function name will
 # go in the first blank and the variable name will go inside the parentheses. 
-# Run names(nox_cty) or head(nox_cty) to remind yourself of variable names
 
 nox_cty %>%
   as.data.frame() %>%
@@ -185,3 +184,19 @@ nox_cty %>%
             NOx_Min = ___(___),
             NOx_Max = ___(___)) %>%
   as.data.frame()
+
+# answers
+
+# nox_cty %>%
+#   as.data.frame() %>%
+#   group_by(Has_Plant) %>% # groups by binary Plant/No Plant variable
+#   summarise(Number_of_Counties = n(), # counts # of counties by Plant/No Plant
+#             ER_Rate_Mean = mean(Rate),
+#             ER_Rate_Med = median(Rate),
+#             ER_Rate_Min = min(Rate),
+#             ER_Rate_Max = max(Rate),
+#             NOx_Mean = mean(Avg_NOx),
+#             NOx_Med = median(Avg_NOx),
+#             NOx_Min = min(Avg_NOx),
+#             NOx_Max = max(Avg_NOx)) %>%
+#   as.data.frame()
