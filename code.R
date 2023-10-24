@@ -21,7 +21,9 @@ setwd("C:/Users/caraw/Documents/SSPHC/TAing/2023-2024/Term2/Lab2/lab2_asthma")
 
 cty <- st_read("CA_counties.shp")
 
-# check that shapefile has the fields ‘NAME’ and ‘GEOID’ for merging
+# check that shapefile has the fields ‘NAME’ and/or ‘GEOID’ for merging (here
+# we'll use county NAME for merging, but GEOID should be used when dealing
+# with multi-state data due to repeated county names)
 
 names(cty) # column names
 head(cty) # preview data
@@ -167,36 +169,8 @@ nox_cty <- asthma_cty %>%
 
 nrow(nox_cty) # 32 counties have NOx data
 
-# generate values for table 1 by filling in the blank (___) spaces below. Use
-# the appropriate R functions and variable names. Hint: the function name will
-# go in the first blank and the variable name will go inside the parentheses. 
-
-nox_cty %>%
-  as.data.frame() %>%
-  group_by(Has_Plant) %>% # groups by binary Plant/No Plant variable
-  summarise(Number_of_Counties = n(), # counts # of counties by Plant/No Plant
-            ER_Rate_Mean = ___(___),
-            ER_Rate_Med = ___(___),
-            ER_Rate_Min = ___(___),
-            ER_Rate_Max = ___(___),
-            NOx_Mean = ___(___),
-            NOx_Med = ___(___),
-            NOx_Min = ___(___),
-            NOx_Max = ___(___)) %>%
-  as.data.frame()
-
-# answers
-
-# nox_cty %>%
-#   as.data.frame() %>%
-#   group_by(Has_Plant) %>% # groups by binary Plant/No Plant variable
-#   summarise(Number_of_Counties = n(), # counts # of counties by Plant/No Plant
-#             ER_Rate_Mean = mean(Rate),
-#             ER_Rate_Med = median(Rate),
-#             ER_Rate_Min = min(Rate),
-#             ER_Rate_Max = max(Rate),
-#             NOx_Mean = mean(Avg_NOx),
-#             NOx_Med = median(Avg_NOx),
-#             NOx_Min = min(Avg_NOx),
-#             NOx_Max = max(Avg_NOx)) %>%
-#   as.data.frame()
+# write your own code here to generate values for Table 1. Hint: You will need
+# to use the nox_cty object with 32 counties and R functions to calculate the 
+# mean, median, and range (min-max) of the asthma rates and NOx concentrations,
+# and these calculations will need to be grouped/stratified by counties that
+# do/do not have plants. 
